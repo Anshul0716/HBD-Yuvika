@@ -334,6 +334,7 @@
       opacity: 0;
       cursor: grab;
       animation: paperAnimation 1.2s ease-in-out forwards;
+      transition: filter 0.5s ease;
     }
 
     .paper:active {
@@ -341,6 +342,11 @@
     }
 
     .paper.show { display: block; }
+
+    /* Blur effect for older cards when a new card appears */
+    .paper.blurred {
+      filter: blur(4px) brightness(0.92);
+    }
 
     p {
       font-size: 42px;
@@ -351,28 +357,21 @@
       text-align: center;
     }
 
-    /* 4. Live Camera Birthday Filter Card (Google Meet Style) */
+    /* 4. Live Camera Birthday Filter Card (Pure Camera + Motion Tracked AR) */
     .paper.camera-card {
-      width: 350px;
-      padding: 14px;
-    }
-
-    .camera-title {
-      font-size: 28px;
-      color: #d6336c;
-      font-weight: bold;
-      margin: 0 0 8px 0;
+      width: 340px;
+      padding: 8px;
     }
 
     .camera-frame {
       position: relative;
       width: 100%;
-      height: 350px;
+      height: 400px;
       background: #1f1f2e;
-      border-radius: 14px;
+      border-radius: 10px;
       overflow: hidden;
-      border: 3px solid #ff8da1;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 6px 15px rgba(214, 51, 108, 0.25);
+      border: 2px solid #ff8da1;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
     }
 
     #selfieVideo {
@@ -397,7 +396,7 @@
       z-index: 2;
     }
 
-    /* Google Meet Style AR Overlays */
+    /* Google Meet Style Motion-Tracked AR Overlays */
     .ar-overlay {
       position: absolute;
       top: 0;
@@ -406,42 +405,32 @@
       height: 100%;
       pointer-events: none;
       z-index: 5;
+      overflow: hidden;
     }
 
-    /* Birthday Hat Positioned on Top of Head */
+    /* Birthday Hat (Always Upright, Tracks Head Motion Smoothly) */
     .ar-birthday-hat {
       position: absolute;
-      top: 4px;
+      top: 24%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 115px;
-      height: 115px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-      animation: hatFloat 2.4s infinite ease-in-out;
+      width: 120px;
+      height: 120px;
+      transform: translate(-50%, -92%);
+      transform-origin: 50% 90%;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.45));
+      will-change: transform, left, top;
     }
 
-    /* Face Guide Subtle Hint */
-    .head-oval-guide {
-      position: absolute;
-      top: 95px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 135px;
-      height: 165px;
-      border: 1.5px dashed rgba(255, 255, 255, 0.28);
-      border-radius: 50%;
-    }
-
-    /* Birthday Cake in Front (Bottom Center) */
+    /* Birthday Cake in Front (Always Upright, Follows Horizontal Motion) */
     .ar-cake {
       position: absolute;
       bottom: -4px;
       left: 50%;
       transform: translateX(-50%);
-      width: 130px;
-      height: 105px;
+      width: 135px;
+      height: 110px;
       filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-      animation: cakeBounce 2s infinite ease-in-out;
+      will-change: left;
     }
 
     .candle-flame {
@@ -479,23 +468,6 @@
     .s1 { left: 12%; bottom: 20%; animation-delay: 0s; }
     .s2 { right: 14%; bottom: 15%; animation-delay: 1.5s; }
     .s3 { left: 20%; bottom: 5%; animation-delay: 2.5s; }
-
-    .camera-caption {
-      font-size: 26px;
-      color: #5c001e;
-      margin: 8px 0 2px 0;
-      font-weight: bold;
-    }
-
-    @keyframes hatFloat {
-      0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
-      50% { transform: translateX(-50%) translateY(-5px) rotate(2deg); }
-    }
-
-    @keyframes cakeBounce {
-      0%, 100% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.04); }
-    }
 
     @keyframes flickerFlame {
       0% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
@@ -585,10 +557,9 @@
     <p>Meri is creative duniya me apka swagat hai ❤️</p>
   </div>
 
-  <!-- Step 4: Card 2 - Google Meet Style Live Camera Birthday Filter -->
+  <!-- Step 4: Card 2 - Google Meet Style Motion-Tracked Camera Card (No Text) -->
   <div class="paper camera-card" id="camera-paper">
-    <p class="camera-title">Smile, Birthday Girl! 📸✨</p>
-    <div class="camera-frame">
+    <div class="camera-frame" id="cameraFrame">
       <video id="selfieVideo" autoplay playsinline muted></video>
       <div class="cam-fallback" id="camFallback">
         Camera permission allow karo apna cute Live Birthday Effect dekhne ke liye! 📸🎂
@@ -596,8 +567,8 @@
 
       <!-- Google Meet Style AR Birthday Filter Overlays -->
       <div class="ar-overlay">
-        <!-- Birthday Hat on Head -->
-        <svg class="ar-birthday-hat" viewBox="0 0 120 120">
+        <!-- Birthday Hat (Tracked to Head Motion, Upright) -->
+        <svg class="ar-birthday-hat" id="arHat" viewBox="0 0 120 120">
           <polygon points="60,18 22,102 98,102" fill="#ff4d79" stroke="#fff" stroke-width="3" stroke-linejoin="round" />
           <path d="M45,52 Q60,60 75,52" fill="none" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
           <path d="M32,80 Q60,92 88,80" fill="none" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
@@ -610,9 +581,6 @@
           <circle cx="57" cy="12" r="4" fill="#fff8b5" />
         </svg>
 
-        <!-- Subtle Face Guide -->
-        <div class="head-oval-guide"></div>
-
         <!-- Party Poppers on Sides -->
         <div class="popper-left">🎉</div>
         <div class="popper-right">🎊</div>
@@ -622,8 +590,8 @@
         <div class="meet-sparkle s2">✨</div>
         <div class="meet-sparkle s3">💖</div>
 
-        <!-- Birthday Cake in Front -->
-        <svg class="ar-cake" viewBox="0 0 140 110">
+        <!-- Birthday Cake in Front (Always Upright) -->
+        <svg class="ar-cake" id="arCake" viewBox="0 0 140 110">
           <ellipse cx="70" cy="100" rx="58" ry="7" fill="#fff" opacity="0.9" />
           <rect x="24" y="64" width="92" height="34" rx="8" fill="#ffb6c1" stroke="#d6336c" stroke-width="2" />
           <path d="M24,68 Q35,80 46,68 Q58,80 70,68 Q82,80 94,68 Q105,80 116,68" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" />
@@ -650,11 +618,11 @@
         </svg>
       </div>
     </div>
-    <p class="camera-caption">Happy Birthday Doctor Sahiba! 🎂</p>
   </div>
 
-  <!-- Confetti Library for Party Poppers -->
+  <!-- Confetti Library & MediaPipe Real-Time Face Tracking for Google Meet AR Effect -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 
   <script>
     const papers = document.querySelectorAll('.paper');
@@ -664,16 +632,99 @@
     const envelope = document.getElementById('envelope');
     const selfieVideo = document.getElementById('selfieVideo');
     const camFallback = document.getElementById('camFallback');
+    const arHat = document.getElementById('arHat');
+    const arCake = document.getElementById('arCake');
     let highestZ = 100;
     let envelopeOpened = false;
     let cameraStreamStarted = false;
     let instrumentalPlaying = false;
     let audioCtx = null;
+    let faceMesh = null;
+
+    // Smooth interpolation values for natural Google Meet motion
+    let hatState = { x: 50, y: 24, scale: 1, angle: 0 };
+    let cakeState = { x: 50 };
+
+    // Initialize Real-Time Face Mesh Tracking
+    function initFaceTracking() {
+      if (typeof FaceMesh === 'undefined' || faceMesh) return;
+
+      faceMesh = new FaceMesh({
+        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+      });
+
+      faceMesh.setOptions({
+        maxNumFaces: 1,
+        refineLandmarks: false,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+      });
+
+      faceMesh.onResults((results) => {
+        if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+          const landmarks = results.multiFaceLandmarks[0];
+          // Landmark 10: Top of Forehead | 234: Left Cheek/Temple | 454: Right Cheek/Temple | 152: Chin
+          const forehead = landmarks[10];
+          const templeA = landmarks[234];
+          const templeB = landmarks[454];
+          const chin = landmarks[152];
+
+          // Mirror X coordinate because selfie video is mirrored (scaleX(-1))
+          const targetX = (1 - forehead.x) * 100;
+          const targetY = forehead.y * 100;
+
+          // Ensure Left-to-Right positive horizontal delta so hat NEVER flips 180 degrees upside down
+          const xA = 1 - templeA.x;
+          const xB = 1 - templeB.x;
+          const leftPt = xA < xB ? { x: xA, y: templeA.y } : { x: xB, y: templeB.y };
+          const rightPt = xA < xB ? { x: xB, y: templeB.y } : { x: xA, y: templeA.y };
+
+          const dx = rightPt.x - leftPt.x;
+          const dy = rightPt.y - leftPt.y;
+          const faceWidth = Math.hypot(dx, dy);
+          const targetScale = Math.min(Math.max(faceWidth * 3.1, 0.7), 1.55);
+
+          // Gentle head tilt clamped between -25 and +25 degrees (never flips upside down)
+          const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+          const targetAngle = Math.max(-25, Math.min(25, rawAngle));
+
+          // Smoothly interpolate (lerp) so hat moves fluidly with head motion
+          hatState.x += (targetX - hatState.x) * 0.35;
+          hatState.y += (targetY - hatState.y) * 0.35;
+          hatState.scale += (targetScale - hatState.scale) * 0.25;
+          hatState.angle += (targetAngle - hatState.angle) * 0.3;
+
+          arHat.style.left = `${hatState.x}%`;
+          arHat.style.top = `${hatState.y}%`;
+          arHat.style.transform = `translate(-50%, -92%) rotate(${hatState.angle}deg) scale(${hatState.scale})`;
+
+          // Cake stays completely upright (no rotation) and gently follows horizontal movement
+          const chinX = (1 - chin.x) * 100;
+          cakeState.x += (chinX - cakeState.x) * 0.2;
+          arCake.style.left = `${cakeState.x}%`;
+        }
+      });
+
+      async function detectFrame() {
+        if (selfieVideo.readyState >= 2 && !selfieVideo.paused) {
+          try {
+            await faceMesh.send({ image: selfieVideo });
+          } catch (e) {}
+        }
+        requestAnimationFrame(detectFrame);
+      }
+
+      selfieVideo.addEventListener('loadeddata', () => {
+        detectFrame();
+      });
+    }
 
     // Start Live Selfie Camera
     function startLiveCamera() {
       if (cameraStreamStarted) return;
       cameraStreamStarted = true;
+
+      initFaceTracking();
 
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
@@ -735,7 +786,6 @@
           osc.type = 'sine';
           osc.frequency.setValueAtTime(note.f, currentTime);
 
-          // Gentle low volume (0.08)
           gain.gain.setValueAtTime(0.001, currentTime);
           gain.gain.exponentialRampToValueAtTime(0.08, currentTime + 0.04);
           gain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.d + 0.35);
@@ -787,7 +837,7 @@
       }, 2600);
     });
 
-    // 3. Dragging Logic for Cards (Reveals Next Card on Drag)
+    // 3. Dragging Logic for Cards (Blurs Old Cards & Reveals Next Card on Drag)
     const enableDragging = (paper, index) => {
       let isDragging = false;
       let startX, startY, initX, initY;
@@ -820,6 +870,11 @@
           nextRevealed = true;
           const nextIndex = index + 1;
           if (nextIndex < papers.length) {
+            // Blur all previous cards so the new card stands out clearly
+            for (let i = 0; i <= index; i++) {
+              papers[i].classList.add('blurred');
+            }
+
             const nextPaper = papers[nextIndex];
             highestZ += 1;
             nextPaper.style.zIndex = highestZ;
