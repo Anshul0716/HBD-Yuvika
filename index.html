@@ -97,7 +97,7 @@
       transform: scale(0.95);
     }
 
-    /* 2. Envelope Styles */
+    /* 2. Ribbon & Bow Gift Envelope Styles */
     #envelopeWrapper {
       position: absolute;
       display: none;
@@ -123,11 +123,11 @@
 
     .envelope {
       position: relative;
-      width: 300px;
-      height: 200px;
-      background: #f08080;
-      border-radius: 0 0 10px 10px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+      width: 310px;
+      height: 205px;
+      background: #ffdde1;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     }
 
     /* Mini Letter inside the Envelope */
@@ -135,8 +135,8 @@
       position: absolute;
       bottom: 10px;
       left: 15px;
-      width: 270px;
-      height: 170px;
+      width: 280px;
+      height: 175px;
       background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
       background-size: cover;
       border-radius: 6px;
@@ -146,13 +146,15 @@
       justify-content: center;
       padding: 15px;
       z-index: 2;
-      transition: transform 0.7s ease-in-out;
+      transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.85s ease;
     }
 
     .envelope-letter p {
-      font-size: 28px;
+      font-size: 24px;
       margin: 0;
       color: #d6336c;
+      text-align: center;
+      font-weight: bold;
     }
 
     /* Front Flaps of the Envelope */
@@ -162,11 +164,11 @@
       left: 0;
       width: 0;
       height: 0;
-      border-left: 150px solid #ff9aa2;
-      border-right: 150px solid #ff9aa2;
-      border-bottom: 110px solid #ffb7b2;
+      border-left: 155px solid #ffb6c1;
+      border-right: 155px solid #ffb6c1;
+      border-bottom: 115px solid #ffc2cd;
       border-top: 90px solid transparent;
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 12px 12px;
       z-index: 3;
     }
 
@@ -177,44 +179,129 @@
       left: 0;
       width: 0;
       height: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-top: 115px solid #e26d75;
+      border-left: 155px solid transparent;
+      border-right: 155px solid transparent;
+      border-top: 115px solid #ff8da1;
       transform-origin: top;
-      transition: transform 0.6s ease-in-out, z-index 0.2s 0.3s;
+      transition: transform 0.6s ease-in-out 0.35s, z-index 0.2s 0.65s;
       z-index: 4;
     }
 
-    /* Cute Heart Seal */
-    .heart-seal {
+    /* Satin Ribbons */
+    .ribbon-h {
       position: absolute;
-      top: 95px;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 34px;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 22px;
+      background: linear-gradient(to bottom, #d6336c, #b81d53, #d6336c);
+      transform: translateY(-50%);
       z-index: 5;
-      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
-      animation: pulseHeart 1.2s infinite ease-in-out;
-      transition: opacity 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.45s ease, opacity 0.4s ease;
     }
 
-    /* Open State for Envelope */
+    .ribbon-v {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 22px;
+      height: 100%;
+      background: linear-gradient(to right, #d6336c, #b81d53, #d6336c);
+      transform: translateX(-50%);
+      z-index: 5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.45s ease, opacity 0.4s ease;
+    }
+
+    /* Center Bow */
+    .ribbon-bow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 46px;
+      z-index: 7;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+      animation: pulseBow 1.4s infinite ease-in-out;
+      transition: transform 0.45s ease, opacity 0.4s ease;
+    }
+
+    /* Hanging Gift Tag (To & From) */
+    .gift-tag {
+      position: absolute;
+      top: 54%;
+      left: 53%;
+      background: #fffdf9;
+      border: 2px solid #d6336c;
+      border-radius: 8px;
+      padding: 6px 12px;
+      z-index: 6;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+      transform: rotate(7deg);
+      transform-origin: top left;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #4a0e24;
+      text-align: left;
+      white-space: nowrap;
+      transition: transform 0.45s ease, opacity 0.4s ease;
+    }
+
+    .gift-tag::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 5px;
+      background: #d6336c;
+      border-radius: 50%;
+    }
+
+    .gift-tag div {
+      padding-left: 6px;
+    }
+
+    .gift-tag b {
+      color: #d6336c;
+    }
+
+    /* Open State for Ribbon & Envelope */
+    .envelope.open .ribbon-h {
+      transform: translateY(-50%) scaleX(1.15);
+      opacity: 0;
+    }
+
+    .envelope.open .ribbon-v {
+      transform: translateX(-50%) scaleY(1.15);
+      opacity: 0;
+    }
+
+    .envelope.open .ribbon-bow {
+      transform: translate(-50%, -50%) scale(1.4) rotate(15deg);
+      opacity: 0;
+    }
+
+    .envelope.open .gift-tag {
+      transform: translateY(30px) rotate(20deg);
+      opacity: 0;
+    }
+
     .envelope.open .envelope-flap {
       transform: rotateX(180deg);
       z-index: 1;
     }
 
-    .envelope.open .heart-seal {
-      opacity: 0;
-    }
-
     .envelope.open .envelope-letter {
-      transform: translateY(-95px);
-      transition-delay: 0.4s;
+      transform: translateY(-110px) scale(1.04) rotateZ(-2deg);
+      box-shadow: 0 12px 25px rgba(214, 51, 108, 0.35);
+      transition-delay: 0.75s;
     }
 
     .envelope-hint {
-      margin-top: 22px;
+      margin-top: 26px;
       font-family: 'Quicksand', sans-serif;
       font-weight: 700;
       font-size: 16px;
@@ -264,14 +351,181 @@
       text-align: center;
     }
 
+    /* 4. Live Camera Birthday Filter Card (Google Meet Style) */
+    .paper.camera-card {
+      width: 350px;
+      padding: 14px;
+    }
+
+    .camera-title {
+      font-size: 28px;
+      color: #d6336c;
+      font-weight: bold;
+      margin: 0 0 8px 0;
+    }
+
+    .camera-frame {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      background: #1f1f2e;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 3px solid #ff8da1;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 6px 15px rgba(214, 51, 108, 0.25);
+    }
+
+    #selfieVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Mirror effect like Google Meet */
+      display: block;
+    }
+
+    .cam-fallback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffdde1;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 14px;
+      text-align: center;
+      width: 82%;
+      display: none;
+      z-index: 2;
+    }
+
+    /* Google Meet Style AR Overlays */
+    .ar-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Birthday Hat Positioned on Top of Head */
+    .ar-birthday-hat {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 115px;
+      height: 115px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      animation: hatFloat 2.4s infinite ease-in-out;
+    }
+
+    /* Face Guide Subtle Hint */
+    .head-oval-guide {
+      position: absolute;
+      top: 95px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 135px;
+      height: 165px;
+      border: 1.5px dashed rgba(255, 255, 255, 0.28);
+      border-radius: 50%;
+    }
+
+    /* Birthday Cake in Front (Bottom Center) */
+    .ar-cake {
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 105px;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+      animation: cakeBounce 2s infinite ease-in-out;
+    }
+
+    .candle-flame {
+      transform-origin: center bottom;
+      animation: flickerFlame 0.6s infinite alternate ease-in-out;
+    }
+
+    /* Corner Party Poppers */
+    .popper-left, .popper-right {
+      position: absolute;
+      top: 42%;
+      font-size: 38px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+    }
+
+    .popper-left {
+      left: 8px;
+      animation: popLeft 1.6s infinite ease-in-out;
+    }
+
+    .popper-right {
+      right: 8px;
+      transform: scaleX(-1);
+      animation: popRight 1.6s infinite ease-in-out;
+    }
+
+    /* Floating Google Meet Style Balloons/Sparkles */
+    .meet-sparkle {
+      position: absolute;
+      font-size: 22px;
+      animation: floatUp 4s infinite linear;
+      opacity: 0.85;
+    }
+
+    .s1 { left: 12%; bottom: 20%; animation-delay: 0s; }
+    .s2 { right: 14%; bottom: 15%; animation-delay: 1.5s; }
+    .s3 { left: 20%; bottom: 5%; animation-delay: 2.5s; }
+
+    .camera-caption {
+      font-size: 26px;
+      color: #5c001e;
+      margin: 8px 0 2px 0;
+      font-weight: bold;
+    }
+
+    @keyframes hatFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+      50% { transform: translateX(-50%) translateY(-5px) rotate(2deg); }
+    }
+
+    @keyframes cakeBounce {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.04); }
+    }
+
+    @keyframes flickerFlame {
+      0% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
+      100% { transform: scale(1.18) rotate(3deg); opacity: 1; }
+    }
+
+    @keyframes popLeft {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      40% { transform: scale(1.28) rotate(-15deg); }
+    }
+
+    @keyframes popRight {
+      0%, 100% { transform: scaleX(-1) scale(1) rotate(0deg); }
+      40% { transform: scaleX(-1) scale(1.28) rotate(-15deg); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+      30% { opacity: 0.9; }
+      100% { transform: translateY(-220px) scale(1.1); opacity: 0; }
+    }
+
     @keyframes popIn {
       0% { opacity: 0; transform: scale(0.7); }
       100% { opacity: 1; transform: scale(1); }
     }
 
-    @keyframes pulseHeart {
+    @keyframes pulseBow {
       0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.18); }
+      50% { transform: translate(-50%, -50%) scale(1.12); }
     }
 
     @keyframes paperAnimation {
@@ -297,31 +551,110 @@
     <div class="instruction-box">
       <h2>How to Open? 💌</h2>
       <ul class="instruction-list">
-        <li><span>💌</span> <span>Sabse pehle samne aane wale <b>Envelope (Lifafe)</b> par tap karke usey open karo.</span></li>
-        <li><span>👆</span> <span>Uske baad har card ko padhne ke baad apni finger ya mouse se <b>drag karke side mein</b> hatao.</span></li>
-        <li><span>✨</span> <span>Har card ke neeche agla surprise chhupa hai!</span></li>
+        <li><span>💌</span> <span>Sabse pehle samne aane wale <b>Envelope </b> par tap karke usey open karo.</span></li>
+        <li><span>👆</span> <span>Uske baad har card ko padhne ke baad apni finger se card <b>drag karke side karti jao.</b></span></li>
+        <li><span>📸</span> <span>Live birthday effect ke liye <b>Camera ki permission Allow</b> kar dena!</span></li>
+        <li><span>🔊</span> <span><b>Volume thoda badha lo</b> taaki background music sunai de.</span></li>
       </ul>
       <button id="startBtn">Tap to Start 🎉</button>
     </div>
   </div>
 
-  <!-- Step 2: Interactive Envelope -->
+  <!-- Step 2: Interactive Ribbon & Bow Gift Envelope -->
   <div id="envelopeWrapper">
     <div class="envelope" id="envelope">
       <div class="envelope-flap"></div>
       <div class="envelope-pocket"></div>
       <div class="envelope-letter">
-        <p>For You ✨</p>
+        <p>Ek Special Gift... Sirf Aapke Liye! 💌</p>
       </div>
-      <div class="heart-seal">❤️</div>
+      <!-- Gift Ribbon, Bow & Tag -->
+      <div class="ribbon-h"></div>
+      <div class="ribbon-v"></div>
+      <div class="ribbon-bow">🎀</div>
+      <div class="gift-tag">
+        <div><b>To:</b> neet wali</div>
+        <div><b>From:</b> jee wala</div>
+      </div>
     </div>
-    <div class="envelope-hint">Tap the envelope to open 💌</div>
+    <div class="envelope-hint">Tap the gift envelope to untie 🎀</div>
   </div>
 
-  <!-- Step 3: Draggable Card -->
+  <!-- Step 3: Card 1 -->
   <div class="paper">
-    <p>Welcome To My Creative World ❤️</p>
+    <p>Meri is creative duniya me apka swagat hai ❤️</p>
   </div>
+
+  <!-- Step 4: Card 2 - Google Meet Style Live Camera Birthday Filter -->
+  <div class="paper camera-card" id="camera-paper">
+    <p class="camera-title">Smile, Birthday Girl! 📸✨</p>
+    <div class="camera-frame">
+      <video id="selfieVideo" autoplay playsinline muted></video>
+      <div class="cam-fallback" id="camFallback">
+        Camera permission allow karo apna cute Live Birthday Effect dekhne ke liye! 📸🎂
+      </div>
+
+      <!-- Google Meet Style AR Birthday Filter Overlays -->
+      <div class="ar-overlay">
+        <!-- Birthday Hat on Head -->
+        <svg class="ar-birthday-hat" viewBox="0 0 120 120">
+          <polygon points="60,18 22,102 98,102" fill="#ff4d79" stroke="#fff" stroke-width="3" stroke-linejoin="round" />
+          <path d="M45,52 Q60,60 75,52" fill="none" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
+          <path d="M32,80 Q60,92 88,80" fill="none" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
+          <circle cx="60" cy="40" r="4" fill="#fff" />
+          <circle cx="48" cy="68" r="4.5" fill="#70e1f5" />
+          <circle cx="72" cy="68" r="4.5" fill="#70e1f5" />
+          <circle cx="60" cy="92" r="4" fill="#fff" />
+          <path d="M20,102 Q30,94 40,102 Q50,94 60,102 Q70,94 80,102 Q90,94 100,102" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
+          <circle cx="60" cy="15" r="11" fill="#ffd700" />
+          <circle cx="57" cy="12" r="4" fill="#fff8b5" />
+        </svg>
+
+        <!-- Subtle Face Guide -->
+        <div class="head-oval-guide"></div>
+
+        <!-- Party Poppers on Sides -->
+        <div class="popper-left">🎉</div>
+        <div class="popper-right">🎊</div>
+
+        <!-- Floating Sparkles & Balloons -->
+        <div class="meet-sparkle s1">🎈</div>
+        <div class="meet-sparkle s2">✨</div>
+        <div class="meet-sparkle s3">💖</div>
+
+        <!-- Birthday Cake in Front -->
+        <svg class="ar-cake" viewBox="0 0 140 110">
+          <ellipse cx="70" cy="100" rx="58" ry="7" fill="#fff" opacity="0.9" />
+          <rect x="24" y="64" width="92" height="34" rx="8" fill="#ffb6c1" stroke="#d6336c" stroke-width="2" />
+          <path d="M24,68 Q35,80 46,68 Q58,80 70,68 Q82,80 94,68 Q105,80 116,68" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" />
+          <rect x="38" y="38" width="64" height="28" rx="6" fill="#ff6b8b" stroke="#d6336c" stroke-width="2" />
+          <path d="M38,42 Q48,52 59,42 Q70,52 81,42 Q92,52 102,42" fill="none" stroke="#fffdf9" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="84" r="3" fill="#d6336c" />
+          <circle cx="70" cy="84" r="3" fill="#ffd700" />
+          <circle cx="92" cy="84" r="3" fill="#d6336c" />
+          <rect x="54" y="18" width="7" height="20" rx="2" fill="#fff" stroke="#d6336c" stroke-width="1.5" />
+          <rect x="67" y="15" width="7" height="23" rx="2" fill="#fff" stroke="#d6336c" stroke-width="1.5" />
+          <rect x="80" y="18" width="7" height="20" rx="2" fill="#fff" stroke="#d6336c" stroke-width="1.5" />
+          <g class="candle-flame">
+            <path d="M57.5,6 C53,12 54,17 57.5,17 C61,17 62,12 57.5,6 Z" fill="#ff9f00" />
+            <circle cx="57.5" cy="14" r="2" fill="#ffffaa" />
+          </g>
+          <g class="candle-flame">
+            <path d="M70.5,3 C66,9 67,14 70.5,14 C74,14 75,9 70.5,3 Z" fill="#ff9f00" />
+            <circle cx="70.5" cy="11" r="2" fill="#ffffaa" />
+          </g>
+          <g class="candle-flame">
+            <path d="M83.5,6 C79,12 80,17 83.5,17 C87,17 88,12 83.5,6 Z" fill="#ff9f00" />
+            <circle cx="83.5" cy="14" r="2" fill="#ffffaa" />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <p class="camera-caption">Happy Birthday Doctor Sahiba! 🎂</p>
+  </div>
+
+  <!-- Confetti Library for Party Poppers -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     const papers = document.querySelectorAll('.paper');
@@ -329,11 +662,108 @@
     const instructionOverlay = document.getElementById('instructionOverlay');
     const envelopeWrapper = document.getElementById('envelopeWrapper');
     const envelope = document.getElementById('envelope');
+    const selfieVideo = document.getElementById('selfieVideo');
+    const camFallback = document.getElementById('camFallback');
     let highestZ = 100;
     let envelopeOpened = false;
+    let cameraStreamStarted = false;
+    let instrumentalPlaying = false;
+    let audioCtx = null;
 
-    // 1. Click Start -> Hide Instructions & Show Envelope
+    // Start Live Selfie Camera
+    function startLiveCamera() {
+      if (cameraStreamStarted) return;
+      cameraStreamStarted = true;
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
+          .then((stream) => {
+            selfieVideo.srcObject = stream;
+            camFallback.style.display = 'none';
+          })
+          .catch(() => {
+            camFallback.style.display = 'block';
+          });
+      } else {
+        camFallback.style.display = 'block';
+      }
+    }
+
+    // Party Popper Confetti Burst
+    function popPartyPoppers() {
+      confetti({
+        particleCount: 65,
+        angle: 60,
+        spread: 60,
+        origin: { x: 0.05, y: 0.65 },
+        zIndex: 9999
+      });
+      confetti({
+        particleCount: 65,
+        angle: 120,
+        spread: 60,
+        origin: { x: 0.95, y: 0.65 },
+        zIndex: 9999
+      });
+    }
+
+    // Built-in Soft Instrumental "Happy Birthday" Music Box (Low Sound)
+    function playSoftBirthdayInstrumental() {
+      if (instrumentalPlaying) return;
+      instrumentalPlaying = true;
+
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      if (!audioCtx) audioCtx = new AudioContext();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const melody = [
+        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 1.1 },
+        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.1 },
+        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 523.25, d: 0.6 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 0.6 }, { f: 293.66, d: 1.0 },
+        { f: 466.16, d: 0.35 }, { f: 466.16, d: 0.25 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.3 }
+      ];
+
+      function playLoop() {
+        if (!instrumentalPlaying) return;
+        let currentTime = audioCtx.currentTime + 0.1;
+
+        melody.forEach((note) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(note.f, currentTime);
+
+          // Gentle low volume (0.08)
+          gain.gain.setValueAtTime(0.001, currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.08, currentTime + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.d + 0.35);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(currentTime);
+          osc.stop(currentTime + note.d + 0.4);
+
+          currentTime += note.d + 0.08;
+        });
+
+        const totalDuration = (currentTime - audioCtx.currentTime) * 1000;
+        setTimeout(playLoop, totalDuration + 800);
+      }
+
+      playLoop();
+    }
+
+    // 1. Click Start -> Request Camera Permission, Hide Instructions & Show Envelope
     startBtn.addEventListener('click', () => {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext && !audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      startLiveCamera();
+
       instructionOverlay.classList.add('hide');
       setTimeout(() => {
         instructionOverlay.remove();
@@ -341,27 +771,28 @@
       }, 400);
     });
 
-    // 2. Click Envelope -> Open Flap -> Pull out Letter -> Show Draggable Card
+    // 2. Click Envelope -> Untie Ribbon -> Open Flap -> Bounce out Letter -> Show Draggable Card
     envelopeWrapper.addEventListener('click', () => {
       if (envelopeOpened) return;
       envelopeOpened = true;
 
       envelope.classList.add('open');
 
-      // Wait for flap and mini-letter animation, then reveal actual draggable card
       setTimeout(() => {
         envelopeWrapper.classList.add('fade-out');
         setTimeout(() => {
           envelopeWrapper.remove();
           papers[0].classList.add('show');
-        }, 500);
-      }, 1300);
+        }, 600);
+      }, 2600);
     });
 
-    // 3. Dragging Logic for Cards
-    const enableDragging = (paper) => {
+    // 3. Dragging Logic for Cards (Reveals Next Card on Drag)
+    const enableDragging = (paper, index) => {
       let isDragging = false;
       let startX, startY, initX, initY;
+      let nextRevealed = false;
+      const threshold = 50;
 
       const onStart = (e) => {
         isDragging = true;
@@ -384,6 +815,27 @@
         const deltaY = clientY - startY;
         paper.style.left = `${initX + deltaX}px`;
         paper.style.top = `${initY + deltaY}px`;
+
+        if (!nextRevealed && (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold)) {
+          nextRevealed = true;
+          const nextIndex = index + 1;
+          if (nextIndex < papers.length) {
+            const nextPaper = papers[nextIndex];
+            highestZ += 1;
+            nextPaper.style.zIndex = highestZ;
+            nextPaper.style.left = '50%';
+            nextPaper.style.top = '50%';
+            nextPaper.classList.add('show');
+
+            // Trigger Party Poppers & Soft Instrumental Birthday Music when Camera Card appears
+            if (nextPaper.id === 'camera-paper') {
+              startLiveCamera();
+              popPartyPoppers();
+              setTimeout(popPartyPoppers, 900);
+              playSoftBirthdayInstrumental();
+            }
+          }
+        }
       };
 
       const onEnd = () => { isDragging = false; };
@@ -396,7 +848,7 @@
       document.addEventListener('touchend', onEnd);
     };
 
-    papers.forEach((paper) => enableDragging(paper));
+    papers.forEach((paper, index) => enableDragging(paper, index));
   </script>
 
 </body>
