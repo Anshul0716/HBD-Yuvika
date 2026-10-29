@@ -334,7 +334,7 @@
       opacity: 0;
       cursor: grab;
       animation: paperAnimation 1.2s ease-in-out forwards;
-      transition: filter 0.5s ease;
+      transition: opacity 0.4s ease;
     }
 
     .paper:active {
@@ -342,11 +342,6 @@
     }
 
     .paper.show { display: block; }
-
-    /* Blur effect for older cards when a new card appears */
-    .paper.blurred {
-      filter: blur(4px) brightness(0.92);
-    }
 
     p {
       font-size: 42px;
@@ -357,16 +352,19 @@
       text-align: center;
     }
 
-    /* 4. Live Camera Birthday Filter Card (Pure Camera + Motion Tracked AR) */
+    /* 4. Live Camera Card (Pure 9:16 Aspect Ratio) */
     .paper.camera-card {
-      width: 340px;
+      width: 265px;
+      max-width: 82vw;
       padding: 8px;
+      top: 44%;
     }
 
     .camera-frame {
       position: relative;
       width: 100%;
-      height: 400px;
+      aspect-ratio: 9 / 16;
+      max-height: 65vh;
       background: #1f1f2e;
       border-radius: 10px;
       overflow: hidden;
@@ -378,7 +376,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scaleX(-1); /* Mirror effect like Google Meet */
+      transform: scaleX(-1);
       display: block;
     }
 
@@ -413,8 +411,8 @@
       position: absolute;
       top: 24%;
       left: 50%;
-      width: 120px;
-      height: 120px;
+      width: 115px;
+      height: 115px;
       transform: translate(-50%, -92%);
       transform-origin: 50% 90%;
       filter: drop-shadow(0 5px 10px rgba(0,0,0,0.45));
@@ -427,8 +425,8 @@
       bottom: -4px;
       left: 50%;
       transform: translateX(-50%);
-      width: 135px;
-      height: 110px;
+      width: 130px;
+      height: 105px;
       filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
       will-change: left;
     }
@@ -438,56 +436,100 @@
       animation: flickerFlame 0.6s infinite alternate ease-in-out;
     }
 
-    /* Corner Party Poppers */
-    .popper-left, .popper-right {
+    /* Background Floating Balloons Container (Behind Camera Card) */
+    #balloonContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      display: none;
+    }
+
+    .bg-balloon {
       position: absolute;
-      top: 42%;
-      font-size: 38px;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+      bottom: -120px;
+      width: 52px;
+      height: 66px;
+      border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+      box-shadow: inset -6px -6px 14px rgba(0,0,0,0.18), 0 6px 14px rgba(0,0,0,0.15);
+      animation: floatUpBalloon linear forwards;
     }
 
-    .popper-left {
-      left: 8px;
-      animation: popLeft 1.6s infinite ease-in-out;
-    }
-
-    .popper-right {
-      right: 8px;
-      transform: scaleX(-1);
-      animation: popRight 1.6s infinite ease-in-out;
-    }
-
-    /* Floating Google Meet Style Balloons/Sparkles */
-    .meet-sparkle {
+    .bg-balloon::before {
+      content: "";
       position: absolute;
-      font-size: 22px;
-      animation: floatUp 4s infinite linear;
-      opacity: 0.85;
+      top: 12px;
+      left: 12px;
+      width: 10px;
+      height: 18px;
+      background: rgba(255,255,255,0.45);
+      border-radius: 50%;
+      transform: rotate(25deg);
     }
 
-    .s1 { left: 12%; bottom: 20%; animation-delay: 0s; }
-    .s2 { right: 14%; bottom: 15%; animation-delay: 1.5s; }
-    .s3 { left: 20%; bottom: 5%; animation-delay: 2.5s; }
+    .bg-balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -38px;
+      left: 50%;
+      width: 1.5px;
+      height: 38px;
+      background: rgba(90, 90, 90, 0.5);
+      transform: translateX(-50%);
+    }
+
+    /* Separate Bouncing Next Button Below Camera Card */
+    #cameraNextBtn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: 92vw;
+      padding: 12px 22px;
+      background: linear-gradient(135deg, #ff6b8b, #d6336c);
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 30px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(214, 51, 108, 0.45);
+      cursor: pointer;
+      display: none;
+      z-index: 9990;
+      animation: bounceUpDown 1s infinite ease-in-out;
+    }
+
+    #cameraNextBtn.show {
+      display: block;
+    }
+
+    @keyframes bounceUpDown {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -12px); }
+    }
+
+    @keyframes floatUpBalloon {
+      0% {
+        transform: translateY(0) translateX(0) rotate(-4deg);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translateY(-55vh) translateX(18px) rotate(5deg);
+      }
+      100% {
+        transform: translateY(-120vh) translateX(-15px) rotate(-4deg);
+        opacity: 0.9;
+      }
+    }
 
     @keyframes flickerFlame {
       0% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
       100% { transform: scale(1.18) rotate(3deg); opacity: 1; }
-    }
-
-    @keyframes popLeft {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      40% { transform: scale(1.28) rotate(-15deg); }
-    }
-
-    @keyframes popRight {
-      0%, 100% { transform: scaleX(-1) scale(1) rotate(0deg); }
-      40% { transform: scaleX(-1) scale(1.28) rotate(-15deg); }
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(20px) scale(0.8); opacity: 0; }
-      30% { opacity: 0.9; }
-      100% { transform: translateY(-220px) scale(1.1); opacity: 0; }
     }
 
     @keyframes popIn {
@@ -552,12 +594,15 @@
     <div class="envelope-hint">Tap the gift envelope to untie 🎀</div>
   </div>
 
+  <!-- Looping Floating Balloons Container (Behind Camera Card) -->
+  <div id="balloonContainer"></div>
+
   <!-- Step 3: Card 1 -->
   <div class="paper">
     <p>Meri is creative duniya me apka swagat hai ❤️</p>
   </div>
 
-  <!-- Step 4: Card 2 - Google Meet Style Motion-Tracked Camera Card (No Text) -->
+  <!-- Step 4: Card 2 - Pure 9:16 Live Camera Birthday Card -->
   <div class="paper camera-card" id="camera-paper">
     <div class="camera-frame" id="cameraFrame">
       <video id="selfieVideo" autoplay playsinline muted></video>
@@ -580,15 +625,6 @@
           <circle cx="60" cy="15" r="11" fill="#ffd700" />
           <circle cx="57" cy="12" r="4" fill="#fff8b5" />
         </svg>
-
-        <!-- Party Poppers on Sides -->
-        <div class="popper-left">🎉</div>
-        <div class="popper-right">🎊</div>
-
-        <!-- Floating Sparkles & Balloons -->
-        <div class="meet-sparkle s1">🎈</div>
-        <div class="meet-sparkle s2">✨</div>
-        <div class="meet-sparkle s3">💖</div>
 
         <!-- Birthday Cake in Front (Always Upright) -->
         <svg class="ar-cake" id="arCake" viewBox="0 0 140 110">
@@ -620,6 +656,19 @@
     </div>
   </div>
 
+  <!-- Separate Bouncing Button Below Camera Card -->
+  <button id="cameraNextBtn">Abhi toh party shuru hui hai, aage bhi toh dekhein ----&gt;</button>
+
+  <!-- Step 5: Blank Card -->
+  <div class="paper">
+    <p></p>
+  </div>
+
+  <!-- Step 6: "As you know, Doctor Sahiba..." Card -->
+  <div class="paper">
+    <p>As you know, Doctor Sahiba.... 👀✨</p>
+  </div>
+
   <!-- Confetti Library & MediaPipe Real-Time Face Tracking for Google Meet AR Effect -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
@@ -634,10 +683,17 @@
     const camFallback = document.getElementById('camFallback');
     const arHat = document.getElementById('arHat');
     const arCake = document.getElementById('arCake');
+    const balloonContainer = document.getElementById('balloonContainer');
+    const cameraNextBtn = document.getElementById('cameraNextBtn');
+    const cameraPaper = document.getElementById('camera-paper');
+
     let highestZ = 100;
     let envelopeOpened = false;
     let cameraStreamStarted = false;
+    let cameraCardCleared = false;
     let instrumentalPlaying = false;
+    let balloonInterval = null;
+    let mediaStream = null;
     let audioCtx = null;
     let faceMesh = null;
 
@@ -663,17 +719,14 @@
       faceMesh.onResults((results) => {
         if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
           const landmarks = results.multiFaceLandmarks[0];
-          // Landmark 10: Top of Forehead | 234: Left Cheek/Temple | 454: Right Cheek/Temple | 152: Chin
           const forehead = landmarks[10];
           const templeA = landmarks[234];
           const templeB = landmarks[454];
           const chin = landmarks[152];
 
-          // Mirror X coordinate because selfie video is mirrored (scaleX(-1))
           const targetX = (1 - forehead.x) * 100;
           const targetY = forehead.y * 100;
 
-          // Ensure Left-to-Right positive horizontal delta so hat NEVER flips 180 degrees upside down
           const xA = 1 - templeA.x;
           const xB = 1 - templeB.x;
           const leftPt = xA < xB ? { x: xA, y: templeA.y } : { x: xB, y: templeB.y };
@@ -684,11 +737,9 @@
           const faceWidth = Math.hypot(dx, dy);
           const targetScale = Math.min(Math.max(faceWidth * 3.1, 0.7), 1.55);
 
-          // Gentle head tilt clamped between -25 and +25 degrees (never flips upside down)
           const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
           const targetAngle = Math.max(-25, Math.min(25, rawAngle));
 
-          // Smoothly interpolate (lerp) so hat moves fluidly with head motion
           hatState.x += (targetX - hatState.x) * 0.35;
           hatState.y += (targetY - hatState.y) * 0.35;
           hatState.scale += (targetScale - hatState.scale) * 0.25;
@@ -698,7 +749,6 @@
           arHat.style.top = `${hatState.y}%`;
           arHat.style.transform = `translate(-50%, -92%) rotate(${hatState.angle}deg) scale(${hatState.scale})`;
 
-          // Cake stays completely upright (no rotation) and gently follows horizontal movement
           const chinX = (1 - chin.x) * 100;
           cakeState.x += (chinX - cakeState.x) * 0.2;
           arCake.style.left = `${cakeState.x}%`;
@@ -706,6 +756,7 @@
       });
 
       async function detectFrame() {
+        if (cameraCardCleared) return;
         if (selfieVideo.readyState >= 2 && !selfieVideo.paused) {
           try {
             await faceMesh.send({ image: selfieVideo });
@@ -721,7 +772,7 @@
 
     // Start Live Selfie Camera
     function startLiveCamera() {
-      if (cameraStreamStarted) return;
+      if (cameraStreamStarted || cameraCardCleared) return;
       cameraStreamStarted = true;
 
       initFaceTracking();
@@ -729,6 +780,7 @@
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
           .then((stream) => {
+            mediaStream = stream;
             selfieVideo.srcObject = stream;
             camFallback.style.display = 'none';
           })
@@ -740,22 +792,95 @@
       }
     }
 
-    // Party Popper Confetti Burst
-    function popPartyPoppers() {
+    // Party Popper Confetti Burst (Only at Start of Camera Card)
+    function popPartyPoppersOnce() {
       confetti({
-        particleCount: 65,
+        particleCount: 70,
         angle: 60,
-        spread: 60,
+        spread: 65,
         origin: { x: 0.05, y: 0.65 },
         zIndex: 9999
       });
       confetti({
-        particleCount: 65,
+        particleCount: 70,
         angle: 120,
-        spread: 60,
+        spread: 65,
         origin: { x: 0.95, y: 0.65 },
         zIndex: 9999
       });
+    }
+
+    // Looping Floating Balloons Behind Camera Card
+    const balloonColors = ['#ff4d79', '#ff9a9e', '#a18cd1', '#ffd700', '#70e1f5', '#ff6b8b'];
+    function startFloatingBalloons(cameraZIndex) {
+      if (balloonInterval) return;
+      balloonContainer.style.display = 'block';
+      balloonContainer.style.zIndex = cameraZIndex - 1; // Behind camera card
+
+      function spawnBalloon() {
+        if (cameraCardCleared) return;
+        const b = document.createElement('div');
+        b.className = 'bg-balloon';
+        b.style.left = `${Math.random() * 88 + 4}vw`;
+        b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+        const duration = Math.random() * 3 + 4.5;
+        b.style.animationDuration = `${duration}s`;
+        balloonContainer.appendChild(b);
+
+        setTimeout(() => {
+          b.remove();
+        }, duration * 1000);
+      }
+
+      for (let i = 0; i < 5; i++) {
+        setTimeout(spawnBalloon, i * 350);
+      }
+      balloonInterval = setInterval(spawnBalloon, 650);
+    }
+
+    // Clear Camera Card, Stop Camera Stream, Stop Balloons & Show Next Card (Blank Card)
+    function clearCameraAndGoNext(cameraIndex) {
+      if (cameraCardCleared) return;
+      cameraCardCleared = true;
+
+      // Stop looping balloons
+      if (balloonInterval) {
+        clearInterval(balloonInterval);
+        balloonInterval = null;
+      }
+      balloonContainer.innerHTML = '';
+      balloonContainer.style.display = 'none';
+
+      // Remove bouncing button
+      cameraNextBtn.classList.remove('show');
+      cameraNextBtn.remove();
+
+      // Stop soft instrumental music
+      instrumentalPlaying = false;
+      if (audioCtx && audioCtx.state === 'running') {
+        audioCtx.close().catch(() => {});
+      }
+
+      // Stop webcam stream
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
+
+      // Clear/Remove the Camera Card
+      cameraPaper.style.opacity = '0';
+      setTimeout(() => {
+        cameraPaper.remove();
+      }, 350);
+
+      // Reveal Next Card (Blank Card)
+      const nextPaper = papers[cameraIndex + 1];
+      if (nextPaper) {
+        highestZ += 2;
+        nextPaper.style.zIndex = highestZ;
+        nextPaper.style.left = '50%';
+        nextPaper.style.top = '50%';
+        nextPaper.classList.add('show');
+      }
     }
 
     // Built-in Soft Instrumental "Happy Birthday" Music Box (Low Sound)
@@ -776,7 +901,7 @@
       ];
 
       function playLoop() {
-        if (!instrumentalPlaying) return;
+        if (!instrumentalPlaying || cameraCardCleared) return;
         let currentTime = audioCtx.currentTime + 0.1;
 
         melody.forEach((note) => {
@@ -837,7 +962,12 @@
       }, 2600);
     });
 
-    // 3. Dragging Logic for Cards (Blurs Old Cards & Reveals Next Card on Drag)
+    // Click Bouncing Button Below Camera Card -> Clear Camera Card & Show Blank Card
+    cameraNextBtn.addEventListener('click', () => {
+      clearCameraAndGoNext(1);
+    });
+
+    // 3. Dragging Logic for Cards (Reveals Next Card on Drag)
     const enableDragging = (paper, index) => {
       let isDragging = false;
       let startX, startY, initX, initY;
@@ -852,8 +982,12 @@
         startY = clientY;
         initX = paper.offsetLeft;
         initY = paper.offsetTop;
-        highestZ += 1;
+        highestZ += 2;
         paper.style.zIndex = highestZ;
+
+        if (paper.id === 'camera-paper' && !cameraCardCleared) {
+          balloonContainer.style.zIndex = highestZ - 1;
+        }
         e.preventDefault();
       };
 
@@ -868,25 +1002,26 @@
 
         if (!nextRevealed && (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold)) {
           nextRevealed = true;
+
+          if (paper.id === 'camera-paper') {
+            clearCameraAndGoNext(index);
+            return;
+          }
+
           const nextIndex = index + 1;
           if (nextIndex < papers.length) {
-            // Blur all previous cards so the new card stands out clearly
-            for (let i = 0; i <= index; i++) {
-              papers[i].classList.add('blurred');
-            }
-
             const nextPaper = papers[nextIndex];
-            highestZ += 1;
+            highestZ += 2;
             nextPaper.style.zIndex = highestZ;
             nextPaper.style.left = '50%';
             nextPaper.style.top = '50%';
             nextPaper.classList.add('show');
 
-            // Trigger Party Poppers & Soft Instrumental Birthday Music when Camera Card appears
             if (nextPaper.id === 'camera-paper') {
               startLiveCamera();
-              popPartyPoppers();
-              setTimeout(popPartyPoppers, 900);
+              popPartyPoppersOnce();
+              startFloatingBalloons(highestZ);
+              cameraNextBtn.classList.add('show');
               playSoftBirthdayInstrumental();
             }
           }
