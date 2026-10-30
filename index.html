@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Happy Birthday</title>
+  <title>Happy Birthday Yuvika</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -352,6 +352,13 @@
       text-align: center;
     }
 
+    /* Story Cards Font Size Adjustment for Paragraph Messages */
+    .paper.story-card p {
+      font-size: 26px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
     /* 4. Live Camera Card (Pure 9:16 Aspect Ratio) */
     .paper.camera-card {
       width: 265px;
@@ -597,12 +604,12 @@
   <!-- Looping Floating Balloons Container (Behind Camera Card) -->
   <div id="balloonContainer"></div>
 
-  <!-- Step 3: Card 1 -->
+  <!-- Card 1 -->
   <div class="paper">
     <p>Meri is creative duniya me apka swagat hai ❤️</p>
   </div>
 
-  <!-- Step 4: Card 2 - Pure 9:16 Live Camera Birthday Card -->
+  <!-- Card 2 - Pure 9:16 Live Camera Birthday Card -->
   <div class="paper camera-card" id="camera-paper">
     <div class="camera-frame" id="cameraFrame">
       <video id="selfieVideo" autoplay playsinline muted></video>
@@ -659,14 +666,29 @@
   <!-- Separate Bouncing Button Below Camera Card -->
   <button id="cameraNextBtn">Abhi toh party shuru hui hai, aage bhi toh dekhein ----&gt;</button>
 
-  <!-- Step 5: Blank Card -->
-  <div class="paper">
-    <p></p>
+  <!-- Card 3: Main Birthday Wish Card -->
+  <div class="paper story-card">
+    <p>Many many happy returns of the day to my one and only Delhi Waliiiii! 🎂🎉 Mujhe bahuttttt khushi hai ki aaj fir tumhare is khaas din par main tumhare sath hu, aur is pal ko tumhare liye thoda special aur yaadgar bana paya! ✨❤️</p>
   </div>
 
-  <!-- Step 6: "As you know, Doctor Sahiba..." Card -->
-  <div class="paper">
-    <p>As you know, Doctor Sahiba.... 👀✨</p>
+  <!-- Card 4: "As you know, Doctor Sahiba..." & Appreciation Card -->
+  <div class="paper story-card">
+    <p>As you know, Doctor Sahiba.... 👀✨ Maine apni zindagi mein tumhare jitna saaf, nek-dil aur imaandar insaan nahi dekha. Chahe dosti ho ya koi bhi rishta, tum har cheez dil se nibhana aur sambhalna jaanti ho! 🫶</p>
+  </div>
+
+  <!-- Card 5: Promise & Support Card -->
+  <div class="paper story-card">
+    <p>Main hamesha tumhari har problem ka solution dhundhne me madad karunga. Beete har waqt ki tarah har musibat me tumhare sath khada rahunga, tumhari har baat sunne ke liye available rahunga, aur hamesha tumhe support karta rahunga! 🤝💫</p>
+  </div>
+
+  <!-- Card 6: Cute Apology / Sudhaar Card -->
+  <div class="paper story-card">
+    <p>Kabhi-kabhi mujhe lagta hai main ab utna chahita nahi raha jitna starting me tha... aur uski wajah bhi meri hi harkatein hain—gussa hona, chilla dena etc. 😅 Par sach me, main khud me sudhaar kar raha hu! 🥺❤️</p>
+  </div>
+
+  <!-- Card 7 (Previously Card 8): Photo Intro Card -->
+  <div class="paper story-card">
+    <p>Tum meri life ka sirf ek hissa nahi, ek zarurat ho—bilkul waise jaise machhli ko paani ki! 🐠💧 Hum sath sirf padhte nahi, balki wo memories banate hain jo humein zindagi bhar yaad rahengi. Unhi yaadon me se kuch jo mere mann ke alawa photos me bhi qaid hain...... -> 📸❤️</p>
   </div>
 
   <!-- Confetti Library & MediaPipe Real-Time Face Tracking for Google Meet AR Effect -->
@@ -838,7 +860,7 @@
       balloonInterval = setInterval(spawnBalloon, 650);
     }
 
-    // Clear Camera Card, Stop Camera Stream, Stop Balloons & Show Next Card (Blank Card)
+    // Clear Camera Card, Stop Camera Stream, Stop Balloons & Show Next Card (Card 3)
     function clearCameraAndGoNext(cameraIndex) {
       if (cameraCardCleared) return;
       cameraCardCleared = true;
@@ -872,7 +894,7 @@
         cameraPaper.remove();
       }, 350);
 
-      // Reveal Next Card (Blank Card)
+      // Reveal Next Card (Card 3)
       const nextPaper = papers[cameraIndex + 1];
       if (nextPaper) {
         highestZ += 2;
@@ -962,7 +984,7 @@
       }, 2600);
     });
 
-    // Click Bouncing Button Below Camera Card -> Clear Camera Card & Show Blank Card
+    // Click Bouncing Button Below Camera Card -> Clear Camera Card & Show Next Card
     cameraNextBtn.addEventListener('click', () => {
       clearCameraAndGoNext(1);
     });
