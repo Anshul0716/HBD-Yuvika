@@ -314,6 +314,7 @@
 
     /* 3. Draggable Paper Card */
     .paper {
+      --tilt: 0deg;
       position: absolute;
       width: 340px;
       min-height: 200px;
@@ -329,7 +330,7 @@
       display: none;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%) rotateZ(-5deg);
+      transform: translate(-50%, -50%) rotateZ(var(--tilt));
       z-index: 1;
       opacity: 0;
       cursor: grab;
@@ -357,6 +358,19 @@
       font-size: 26px;
       line-height: 1.35;
       font-weight: 600;
+    }
+
+    /* Final Wishing Card Special Styling */
+    .paper.final-wish-card {
+      border: 2px solid #ff8da1;
+      box-shadow: 0 18px 36px rgba(214, 51, 108, 0.35);
+    }
+
+    .paper.final-wish-card p {
+      font-size: 27px;
+      line-height: 1.38;
+      color: #b81d53;
+      font-weight: 700;
     }
 
     /* 4. Live Camera Card (Pure 9:16 Aspect Ratio) */
@@ -413,7 +427,6 @@
       overflow: hidden;
     }
 
-    /* Birthday Hat (Always Upright, Tracks Head Motion Smoothly) */
     .ar-birthday-hat {
       position: absolute;
       top: 24%;
@@ -426,7 +439,6 @@
       will-change: transform, left, top;
     }
 
-    /* Birthday Cake in Front (Always Upright, Follows Horizontal Motion) */
     .ar-cake {
       position: absolute;
       bottom: -4px;
@@ -515,6 +527,105 @@
       display: block;
     }
 
+    /* 5. Tilted Polaroid Scrapbook Photo Cards */
+    .paper.polaroid-card {
+      background: #ffffff;
+      background-image: none;
+      width: 320px;
+      min-height: auto;
+      max-width: 90vw;
+      padding: 14px 14px 20px 14px;
+      border-radius: 6px;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Individual Tilt Angles for Each Photo Card */
+    .paper.polaroid-card.tilt-1 { --tilt: -6deg; }
+    .paper.polaroid-card.tilt-2 { --tilt: 5deg; }
+    .paper.polaroid-card.tilt-3 { --tilt: -4deg; }
+    .paper.polaroid-card.tilt-4 { --tilt: 6deg; }
+    .paper.polaroid-card.tilt-5 { --tilt: -5deg; }
+    .paper.polaroid-card.tilt-6 { --tilt: 4deg; }
+
+    /* Washi Masking Tape on Top of Polaroid */
+    .polaroid-tape {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      width: 95px;
+      height: 26px;
+      background: rgba(255, 154, 162, 0.72);
+      transform: translateX(-50%) rotate(-3deg);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+      border-left: 2px dotted rgba(255, 255, 255, 0.7);
+      border-right: 2px dotted rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+    }
+
+    .polaroid-tape.mint {
+      background: rgba(162, 232, 208, 0.75);
+      transform: translateX(-50%) rotate(4deg);
+    }
+
+    .polaroid-tape.gold {
+      background: rgba(255, 218, 121, 0.75);
+      transform: translateX(-50%) rotate(-2deg);
+    }
+
+    .polaroid-tape.lavender {
+      background: rgba(205, 180, 219, 0.78);
+      transform: translateX(-50%) rotate(3deg);
+    }
+
+    .polaroid-tape.rose {
+      background: rgba(255, 182, 193, 0.82);
+      transform: translateX(-50%) rotate(-3deg);
+    }
+
+    .polaroid-tape.sky {
+      background: rgba(137, 207, 240, 0.78);
+      transform: translateX(-50%) rotate(3deg);
+    }
+
+    /* Flexible Image Box so Both Wide Chat Screenshots & Tall Photos Fit Without Cropping */
+    .polaroid-img-box {
+      width: 100%;
+      background: #181920;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #e6e6e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .polaroid-img-box img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .polaroid-caption {
+      font-size: 26px;
+      color: #d6336c;
+      margin: 12px 0 0 0;
+      line-height: 1.25;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+
+    .polaroid-sub {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 12.5px;
+      color: #666;
+      margin: 4px 0 0 0;
+      font-weight: 600;
+    }
+
     @keyframes bounceUpDown {
       0%, 100% { transform: translate(-50%, 0); }
       50% { transform: translate(-50%, -12px); }
@@ -552,22 +663,25 @@
     @keyframes paperAnimation {
       0% {
         opacity: 0;
-        transform: translate(-50%, -50%) rotateZ(-5deg) translateY(-500px);
+        transform: translate(-50%, -50%) rotateZ(-8deg) translateY(-500px);
       }
       50% {
         opacity: 1;
-        transform: translate(-50%, -50%) rotateZ(5deg) translateY(50px);
+        transform: translate(-50%, -50%) rotateZ(calc(var(--tilt) + 4deg)) translateY(50px);
       }
       100% {
         opacity: 1;
-        transform: translate(-50%, -50%) rotateZ(0deg) translateY(0);
+        transform: translate(-50%, -50%) rotateZ(var(--tilt)) translateY(0);
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Step 1: Instruction Pop-up Modal (Updated) -->
+  <!-- Audio Element for 6th Photo ("Pandeyjee Seeti" - Plays Once, No Loop) -->
+  <audio id="pandeyjeeAudio" src="pandeyjee.mp3" preload="auto"></audio>
+
+  <!-- Step 1: Instruction Pop-up Modal -->
   <div id="instructionOverlay">
     <div class="instruction-box">
       <h2>Instructions 📖</h2>
@@ -690,6 +804,71 @@
     <p>Tum meri life ka sirf ek hissa nahi, ek zarurat ho—bilkul waise jaise machhli ko paani ki! 🐠💧 Hum sath sirf padhte nahi, balki wo memories banate hain jo humein zindagi bhar yaad rahengi. Unhi yaadon me se kuch jo mere mann ke alawa photos me bhi qaid hain...... -> 📸❤️</p>
   </div>
 
+  <!-- Card 8: Polaroid Photo 1 (IIT Roorkee & AIIMS Delhi Whiteboard) -->
+  <div class="paper polaroid-card tilt-1">
+    <div class="polaroid-tape"></div>
+    <div class="polaroid-img-box">
+      <img src="photo1.jpg" alt="En. Anshul & Dr. Yuvika" />
+    </div>
+    <p class="polaroid-caption">Hamara Sapna: IIT Delhi/Roorkee & AIIMS Delhi/Rishikesh 🎯✨</p>
+    <p class="polaroid-sub">En. Anshul x Dr. Yuvika 🩺⚙️</p>
+  </div>
+
+  <!-- Card 9: Polaroid Photo 2 (Zoom Call: Jee wale ki neet wali) -->
+  <div class="paper polaroid-card tilt-2">
+    <div class="polaroid-tape mint"></div>
+    <div class="polaroid-img-box">
+      <img src="photo2.jpg" alt="Zoom Meeting Memory" />
+    </div>
+    <p class="polaroid-caption">Jee wale ki Neet wali 🌙💖</p>
+    <p class="polaroid-sub">Aur Neet wali ka Jee wala ✨</p>
+  </div>
+
+  <!-- Card 10: Polaroid Photo 3 (Promise Chat Message) -->
+  <div class="paper polaroid-card tilt-3">
+    <div class="polaroid-tape gold"></div>
+    <div class="polaroid-img-box">
+      <img src="photo3.jpg" alt="Promise Message" />
+    </div>
+    <p class="polaroid-caption">Hamesha Ka Promise! 🤝❤️</p>
+    <p class="polaroid-sub">Kabhi picha nahi chodunga 💫</p>
+  </div>
+
+  <!-- Card 11: Polaroid Photo 4 (Zoom Company Chat Message) -->
+  <div class="paper polaroid-card tilt-4">
+    <div class="polaroid-tape lavender"></div>
+    <div class="polaroid-img-box">
+      <img src="photo4.jpg" alt="Zoom Company Message" />
+    </div>
+    <p class="polaroid-caption">Best Study Partner Ever 🥺💻</p>
+    <p class="polaroid-sub">"Ab toh bas ye sunne ka intezar rhta" ❤️</p>
+  </div>
+
+  <!-- Card 12: Polaroid Photo 5 (Last Year Birthday Celebration on Zoom) -->
+  <div class="paper polaroid-card tilt-5">
+    <div class="polaroid-tape rose"></div>
+    <div class="polaroid-img-box">
+      <img src="photo5.jpg" alt="Last Year Birthday Celebration" />
+    </div>
+    <p class="polaroid-caption">Last Year Birthday Celebration! 🎂🩺</p>
+    <p class="polaroid-sub">12:00 AM Zoom Surprise • Future Doctor 💖</p>
+  </div>
+
+  <!-- Card 13: Polaroid Photo 6 (Sunglasses & Mustache Filter + Plays "Pandeyjee Seeti" Once Automatically) -->
+  <div class="paper polaroid-card tilt-6" id="pandeyjee-card">
+    <div class="polaroid-tape sky"></div>
+    <div class="polaroid-img-box">
+      <img src="photo6.jpg" alt="Pandeyjee Swag Yuvika" />
+    </div>
+    <p class="polaroid-caption">Swag Dekho Doctor Sahiba Ka! 😎🥸🔥</p>
+    <p class="polaroid-sub">Asli Pandeyjee Vibes! 😂🎉</p>
+  </div>
+
+  <!-- Card 14: Final Wishing Card (Appears after Pandeyjee Card / Song Ends) -->
+  <div class="paper story-card final-wish-card" id="final-wish-card">
+    <p>Once Again, Happy Birthday Meri Pyari Doctor Sahiba (Yuvika)! 🎂🩺✨ Bhagwan kare is saal tumhara har sapna aur White Coat dono tumhe mil jayein! Hamesha aise hi hasti-muskurati raho! 💖🎉</p>
+  </div>
+
   <!-- Confetti Library & MediaPipe Real-Time Face Tracking for Google Meet AR Effect -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
@@ -707,12 +886,15 @@
     const balloonContainer = document.getElementById('balloonContainer');
     const cameraNextBtn = document.getElementById('cameraNextBtn');
     const cameraPaper = document.getElementById('camera-paper');
+    const pandeyjeeAudio = document.getElementById('pandeyjeeAudio');
+    const finalWishCard = document.getElementById('final-wish-card');
 
     let highestZ = 100;
     let envelopeOpened = false;
     let cameraStreamStarted = false;
     let cameraCardCleared = false;
     let instrumentalPlaying = false;
+    let finalCardShown = false;
     let balloonInterval = null;
     let mediaStream = null;
     let audioCtx = null;
@@ -721,6 +903,20 @@
     // Smooth interpolation values for natural Google Meet motion
     let hatState = { x: 50, y: 24, scale: 1, angle: 0 };
     let cakeState = { x: 50 };
+
+    // Reveal the Final Wishing Card & Pop Celebratory Confetti
+    function showFinalWishingCard() {
+      if (finalCardShown || !finalWishCard) return;
+      finalCardShown = true;
+
+      highestZ += 2;
+      finalWishCard.style.zIndex = highestZ;
+      finalWishCard.style.left = '50%';
+      finalWishCard.style.top = '50%';
+      finalWishCard.classList.add('show');
+
+      popPartyPoppersOnce();
+    }
 
     // Initialize Real-Time Face Mesh Tracking
     function initFaceTracking() {
@@ -813,7 +1009,7 @@
       }
     }
 
-    // Party Popper Confetti Burst (Only at Start of Camera Card)
+    // Party Popper Confetti Burst
     function popPartyPoppersOnce() {
       confetti({
         particleCount: 70,
@@ -952,12 +1148,21 @@
       playLoop();
     }
 
-    // 1. Click Start -> Request Camera Permission, Hide Instructions & Show Envelope
+    // 1. Click Start -> Unlock Audio, Request Camera Permission, Hide Instructions & Show Envelope
     startBtn.addEventListener('click', () => {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (AudioContext && !audioCtx) {
         audioCtx = new AudioContext();
       }
+
+      // Warm up Pandeyjee audio on user gesture so mobile browsers allow auto-play later
+      if (pandeyjeeAudio) {
+        pandeyjeeAudio.play().then(() => {
+          pandeyjeeAudio.pause();
+          pandeyjeeAudio.currentTime = 0;
+        }).catch(() => {});
+      }
+
       startLiveCamera();
 
       instructionOverlay.classList.add('hide');
@@ -966,6 +1171,13 @@
         envelopeWrapper.classList.add('show');
       }, 400);
     });
+
+    // When "Pandeyjee Seeti" finishes playing, do NOT loop -> automatically reveal Final Wishing Card
+    if (pandeyjeeAudio) {
+      pandeyjeeAudio.addEventListener('ended', () => {
+        showFinalWishingCard();
+      });
+    }
 
     // 2. Click Envelope -> Untie Ribbon -> Open Flap -> Bounce out Letter -> Show Draggable Card
     envelopeWrapper.addEventListener('click', () => {
@@ -1029,6 +1241,15 @@
             return;
           }
 
+          // If dragging the 6th Photo (Pandeyjee Card), stop song & reveal Final Wishing Card
+          if (paper.id === 'pandeyjee-card') {
+            if (pandeyjeeAudio && !pandeyjeeAudio.paused) {
+              pandeyjeeAudio.pause();
+            }
+            showFinalWishingCard();
+            return;
+          }
+
           const nextIndex = index + 1;
           if (nextIndex < papers.length) {
             const nextPaper = papers[nextIndex];
@@ -1044,6 +1265,12 @@
               startFloatingBalloons(highestZ);
               cameraNextBtn.classList.add('show');
               playSoftBirthdayInstrumental();
+            }
+
+            // Trigger "Pandeyjee Seeti" Song Once when 6th Photo Card is revealed
+            if (nextPaper.id === 'pandeyjee-card' && pandeyjeeAudio) {
+              pandeyjeeAudio.currentTime = 0;
+              pandeyjeeAudio.play().catch(() => {});
             }
           }
         }
