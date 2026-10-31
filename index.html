@@ -346,30 +346,90 @@
 
     p {
       font-size: 42px;
-      color: rgb(0, 0, 100);
-      opacity: 0.8;
+      color: #d6336c;
+      opacity: 0.9;
       user-select: none;
       margin: 5px 0;
       text-align: center;
     }
 
-    /* Story Cards Font Size Adjustment for Paragraph Messages */
+    /* Story Cards Font Size Adjustment for Paragraph Messages (Pink Text) */
     .paper.story-card p {
       font-size: 26px;
       line-height: 1.35;
       font-weight: 600;
+      color: #d6336c;
     }
 
-    /* Final Wishing Card Special Styling */
-    .paper.final-wish-card {
-      border: 2px solid #ff8da1;
-      box-shadow: 0 18px 36px rgba(214, 51, 108, 0.35);
+    /* Gorgeous Glowing Theme Restored for Final Wishing Card */
+    .paper.story-card.final-wish-card {
+      background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 55%, #ffd1dc 100%);
+      border: 2.5px solid #ff7597;
+      border-radius: 18px;
+      box-shadow: 0 20px 45px rgba(214, 51, 108, 0.32), inset 0 0 20px rgba(255, 255, 255, 0.9);
+      padding: 18px 16px;
+      text-align: center;
+      width: 355px;
     }
 
-    .paper.final-wish-card p {
-      font-size: 27px;
-      line-height: 1.38;
-      color: #b81d53;
+    .wish-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 1.5px dashed rgba(214, 51, 108, 0.45);
+      border-radius: 12px;
+      padding: 16px 14px;
+      background: rgba(255, 255, 255, 0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wish-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b8b, #d6336c);
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 10px rgba(214, 51, 108, 0.28);
+    }
+
+    .wish-title {
+      font-size: 27px !important;
+      line-height: 1.25 !important;
+      color: #b81d53 !important;
+      font-weight: 700 !important;
+      margin: 0 0 8px 0 !important;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    .wish-divider {
+      width: 70%;
+      height: 1.5px;
+      background: linear-gradient(to right, transparent, #ff8da1, transparent);
+      margin: 6px 0 10px 0;
+    }
+
+    .wish-subtext {
+      font-size: 15.5px !important;
+      line-height: 1.5 !important;
+      color: #5c001e !important;
+      font-family: 'Quicksand', sans-serif !important;
+      font-weight: 600 !important;
+      margin: 0 !important;
+    }
+
+    .wish-footer {
+      margin-top: 12px;
+      font-size: 21px;
+      color: #d6336c;
       font-weight: 700;
     }
 
@@ -678,7 +738,8 @@
 </head>
 <body>
 
-  <!-- Audio Element for 6th Photo ("Pandeyjee Seeti" - Plays Once, No Loop) -->
+  <!-- Audio Elements -->
+  <audio id="bgMusic" src="bg_music.mp3" loop preload="auto"></audio>
   <audio id="pandeyjeeAudio" src="pandeyjee.mp3" preload="auto"></audio>
 
   <!-- Step 1: Instruction Pop-up Modal -->
@@ -804,7 +865,7 @@
     <p>Tum meri life ka sirf ek hissa nahi, ek zarurat ho—bilkul waise jaise machhli ko paani ki! 🐠💧 Hum sath sirf padhte nahi, balki wo memories banate hain jo humein zindagi bhar yaad rahengi. Unhi yaadon me se kuch jo mere mann ke alawa photos me bhi qaid hain...... -> 📸❤️</p>
   </div>
 
-  <!-- Card 8: Polaroid Photo 1 (IIT Roorkee & AIIMS Delhi Whiteboard) -->
+  <!-- Card 8: Polaroid Photo 1 -->
   <div class="paper polaroid-card tilt-1">
     <div class="polaroid-tape"></div>
     <div class="polaroid-img-box">
@@ -814,7 +875,7 @@
     <p class="polaroid-sub">En. Anshul x Dr. Yuvika 🩺⚙️</p>
   </div>
 
-  <!-- Card 9: Polaroid Photo 2 (Zoom Call: Jee wale ki neet wali) -->
+  <!-- Card 9: Polaroid Photo 2 -->
   <div class="paper polaroid-card tilt-2">
     <div class="polaroid-tape mint"></div>
     <div class="polaroid-img-box">
@@ -824,7 +885,7 @@
     <p class="polaroid-sub">Aur Neet wali ka Jee wala ✨</p>
   </div>
 
-  <!-- Card 10: Polaroid Photo 3 (Promise Chat Message) -->
+  <!-- Card 10: Polaroid Photo 3 -->
   <div class="paper polaroid-card tilt-3">
     <div class="polaroid-tape gold"></div>
     <div class="polaroid-img-box">
@@ -834,7 +895,7 @@
     <p class="polaroid-sub">Kabhi picha nahi chodunga 💫</p>
   </div>
 
-  <!-- Card 11: Polaroid Photo 4 (Zoom Company Chat Message) -->
+  <!-- Card 11: Polaroid Photo 4 -->
   <div class="paper polaroid-card tilt-4">
     <div class="polaroid-tape lavender"></div>
     <div class="polaroid-img-box">
@@ -844,7 +905,7 @@
     <p class="polaroid-sub">"Ab toh bas ye sunne ka intezar rhta" ❤️</p>
   </div>
 
-  <!-- Card 12: Polaroid Photo 5 (Last Year Birthday Celebration on Zoom) -->
+  <!-- Card 12: Polaroid Photo 5 -->
   <div class="paper polaroid-card tilt-5">
     <div class="polaroid-tape rose"></div>
     <div class="polaroid-img-box">
@@ -854,7 +915,7 @@
     <p class="polaroid-sub">12:00 AM Zoom Surprise • Future Doctor 💖</p>
   </div>
 
-  <!-- Card 13: Polaroid Photo 6 (Sunglasses & Mustache Filter + Plays "Pandeyjee Seeti" Once Automatically) -->
+  <!-- Card 13: Polaroid Photo 6 -->
   <div class="paper polaroid-card tilt-6" id="pandeyjee-card">
     <div class="polaroid-tape sky"></div>
     <div class="polaroid-img-box">
@@ -864,12 +925,18 @@
     <p class="polaroid-sub">Asli Pandeyjee Vibes! 😂🎉</p>
   </div>
 
-  <!-- Card 14: Final Wishing Card (Appears after Pandeyjee Card / Song Ends) -->
+  <!-- Card 14: Final Wishing Card -->
   <div class="paper story-card final-wish-card" id="final-wish-card">
-    <p>Once Again, Happy Birthday Meri Pyari Doctor Sahiba (Yuvika)! 🎂🩺✨ Bhagwan kare is saal tumhara har sapna aur White Coat dono tumhe mil jayein! Hamesha aise hi hasti-muskurati raho! 💖🎉</p>
+    <div class="wish-card-inner">
+      <span class="wish-badge">🩺 Future Dr. Yuvika 🥼</span>
+      <p class="wish-title">Once Again, Happy Birthday Meri Pyari Doctor Sahiba! 🎂✨</p>
+      <div class="wish-divider"></div>
+      <p class="wish-subtext">Bhagwan kare is saal tumhara har sapna aur White Coat dono tumhe mil jayein! Hamesha aise hi hasti-muskurati raho! 💖🎉</p>
+      <div class="wish-footer">Keep Shining Always 🌟❤️</div>
+    </div>
   </div>
 
-  <!-- Confetti Library & MediaPipe Real-Time Face Tracking for Google Meet AR Effect -->
+  <!-- Confetti Library & MediaPipe Real-Time Face Tracking -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 
@@ -886,6 +953,7 @@
     const balloonContainer = document.getElementById('balloonContainer');
     const cameraNextBtn = document.getElementById('cameraNextBtn');
     const cameraPaper = document.getElementById('camera-paper');
+    const bgMusic = document.getElementById('bgMusic');
     const pandeyjeeAudio = document.getElementById('pandeyjeeAudio');
     const finalWishCard = document.getElementById('final-wish-card');
 
@@ -893,18 +961,14 @@
     let envelopeOpened = false;
     let cameraStreamStarted = false;
     let cameraCardCleared = false;
-    let instrumentalPlaying = false;
     let finalCardShown = false;
     let balloonInterval = null;
     let mediaStream = null;
-    let audioCtx = null;
     let faceMesh = null;
 
-    // Smooth interpolation values for natural Google Meet motion
     let hatState = { x: 50, y: 24, scale: 1, angle: 0 };
     let cakeState = { x: 50 };
 
-    // Reveal the Final Wishing Card & Pop Celebratory Confetti
     function showFinalWishingCard() {
       if (finalCardShown || !finalWishCard) return;
       finalCardShown = true;
@@ -918,7 +982,6 @@
       popPartyPoppersOnce();
     }
 
-    // Initialize Real-Time Face Mesh Tracking
     function initFaceTracking() {
       if (typeof FaceMesh === 'undefined' || faceMesh) return;
 
@@ -987,7 +1050,6 @@
       });
     }
 
-    // Start Live Selfie Camera
     function startLiveCamera() {
       if (cameraStreamStarted || cameraCardCleared) return;
       cameraStreamStarted = true;
@@ -1009,7 +1071,6 @@
       }
     }
 
-    // Party Popper Confetti Burst
     function popPartyPoppersOnce() {
       confetti({
         particleCount: 70,
@@ -1027,12 +1088,11 @@
       });
     }
 
-    // Looping Floating Balloons Behind Camera Card
     const balloonColors = ['#ff4d79', '#ff9a9e', '#a18cd1', '#ffd700', '#70e1f5', '#ff6b8b'];
     function startFloatingBalloons(cameraZIndex) {
       if (balloonInterval) return;
       balloonContainer.style.display = 'block';
-      balloonContainer.style.zIndex = cameraZIndex - 1; // Behind camera card
+      balloonContainer.style.zIndex = cameraZIndex - 1;
 
       function spawnBalloon() {
         if (cameraCardCleared) return;
@@ -1055,12 +1115,11 @@
       balloonInterval = setInterval(spawnBalloon, 650);
     }
 
-    // Clear Camera Card, Stop Camera Stream, Stop Balloons & Show Next Card (Card 3)
+    // Stop background music and camera when camera card is cleared
     function clearCameraAndGoNext(cameraIndex) {
       if (cameraCardCleared) return;
       cameraCardCleared = true;
 
-      // Stop looping balloons
       if (balloonInterval) {
         clearInterval(balloonInterval);
         balloonInterval = null;
@@ -1068,28 +1127,24 @@
       balloonContainer.innerHTML = '';
       balloonContainer.style.display = 'none';
 
-      // Remove bouncing button
       cameraNextBtn.classList.remove('show');
       cameraNextBtn.remove();
 
-      // Stop soft instrumental music
-      instrumentalPlaying = false;
-      if (audioCtx && audioCtx.state === 'running') {
-        audioCtx.close().catch(() => {});
+      // Stop uploaded background music (`bg_music.mp3`)
+      if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
       }
 
-      // Stop webcam stream
       if (mediaStream) {
         mediaStream.getTracks().forEach(track => track.stop());
       }
 
-      // Clear/Remove the Camera Card
       cameraPaper.style.opacity = '0';
       setTimeout(() => {
         cameraPaper.remove();
       }, 350);
 
-      // Reveal Next Card (Card 3)
       const nextPaper = papers[cameraIndex + 1];
       if (nextPaper) {
         highestZ += 2;
@@ -1100,70 +1155,13 @@
       }
     }
 
-    // Built-in Soft Instrumental "Happy Birthday" Music Box (Low Sound)
-    function playSoftBirthdayInstrumental() {
-      if (instrumentalPlaying) return;
-      instrumentalPlaying = true;
-
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      if (!audioCtx) audioCtx = new AudioContext();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      const melody = [
-        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 1.1 },
-        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.1 },
-        { f: 261.63, d: 0.35 }, { f: 261.63, d: 0.25 }, { f: 523.25, d: 0.6 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 0.6 }, { f: 293.66, d: 1.0 },
-        { f: 466.16, d: 0.35 }, { f: 466.16, d: 0.25 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.3 }
-      ];
-
-      function playLoop() {
-        if (!instrumentalPlaying || cameraCardCleared) return;
-        let currentTime = audioCtx.currentTime + 0.1;
-
-        melody.forEach((note) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(note.f, currentTime);
-
-          gain.gain.setValueAtTime(0.001, currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.08, currentTime + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.d + 0.35);
-
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-
-          osc.start(currentTime);
-          osc.stop(currentTime + note.d + 0.4);
-
-          currentTime += note.d + 0.08;
-        });
-
-        const totalDuration = (currentTime - audioCtx.currentTime) * 1000;
-        setTimeout(playLoop, totalDuration + 800);
-      }
-
-      playLoop();
-    }
-
-    // 1. Click Start -> Unlock Audio, Request Camera Permission, Hide Instructions & Show Envelope
     startBtn.addEventListener('click', () => {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext && !audioCtx) {
-        audioCtx = new AudioContext();
-      }
-
-      // Warm up Pandeyjee audio on user gesture so mobile browsers allow auto-play later
       if (pandeyjeeAudio) {
         pandeyjeeAudio.play().then(() => {
           pandeyjeeAudio.pause();
           pandeyjeeAudio.currentTime = 0;
         }).catch(() => {});
       }
-
-      startLiveCamera();
 
       instructionOverlay.classList.add('hide');
       setTimeout(() => {
@@ -1172,14 +1170,12 @@
       }, 400);
     });
 
-    // When "Pandeyjee Seeti" finishes playing, do NOT loop -> automatically reveal Final Wishing Card
     if (pandeyjeeAudio) {
       pandeyjeeAudio.addEventListener('ended', () => {
         showFinalWishingCard();
       });
     }
 
-    // 2. Click Envelope -> Untie Ribbon -> Open Flap -> Bounce out Letter -> Show Draggable Card
     envelopeWrapper.addEventListener('click', () => {
       if (envelopeOpened) return;
       envelopeOpened = true;
@@ -1195,12 +1191,10 @@
       }, 2600);
     });
 
-    // Click Bouncing Button Below Camera Card -> Clear Camera Card & Show Next Card
     cameraNextBtn.addEventListener('click', () => {
       clearCameraAndGoNext(1);
     });
 
-    // 3. Dragging Logic for Cards (Reveals Next Card on Drag)
     const enableDragging = (paper, index) => {
       let isDragging = false;
       let startX, startY, initX, initY;
@@ -1241,7 +1235,6 @@
             return;
           }
 
-          // If dragging the 6th Photo (Pandeyjee Card), stop song & reveal Final Wishing Card
           if (paper.id === 'pandeyjee-card') {
             if (pandeyjeeAudio && !pandeyjeeAudio.paused) {
               pandeyjeeAudio.pause();
@@ -1264,10 +1257,14 @@
               popPartyPoppersOnce();
               startFloatingBalloons(highestZ);
               cameraNextBtn.classList.add('show');
-              playSoftBirthdayInstrumental();
+
+              // Play custom background music (`bg_music.mp3`) only when camera card appears
+              if (bgMusic) {
+                bgMusic.currentTime = 0;
+                bgMusic.play().catch(() => {});
+              }
             }
 
-            // Trigger "Pandeyjee Seeti" Song Once when 6th Photo Card is revealed
             if (nextPaper.id === 'pandeyjee-card' && pandeyjeeAudio) {
               pandeyjeeAudio.currentTime = 0;
               pandeyjeeAudio.play().catch(() => {});
